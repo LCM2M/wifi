@@ -292,8 +292,9 @@ out:
 static esp_err_t wifi_sta_set_host_name(
     const struct mgos_config_wifi_sta *cfg) {
   esp_err_t r = ESP_OK;
+  char hn[30];
   const char *host_name =
-      cfg->dhcp_hostname ? cfg->dhcp_hostname : mgos_sys_config_get_device_id();
+      strncat(hn, cfg->dhcp_hostname ? cfg->dhcp_hostname : mgos_sys_config_get_device_id(), 29);
   if (host_name != NULL) {
     esp_netif_t *sta_if = esp_netif_get_handle_from_ifkey("WIFI_STA_DEF");
     r = esp_netif_set_hostname(sta_if, host_name);
